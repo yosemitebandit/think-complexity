@@ -13,8 +13,9 @@ func TestAddVertex(t *testing.T) {
 
 func TestAddEdge(t *testing.T) {
 	v1, v2 := Vertex{"v1"}, Vertex{"v2"}
+	e := Edge{v1, v2}
 	g := NewGraph()
-	g.AddEdge(v1, v2)
+	g.AddEdge(e)
 	if !g.IsConnected(v1, v2) {
 		t.Error("v1 -/-> v2")
 	}
@@ -23,7 +24,8 @@ func TestAddEdge(t *testing.T) {
 func TestIsConnected(t *testing.T) {
 	v1, v2, v3 := Vertex{"v1"}, Vertex{"v2"}, Vertex{"v3"}
 	g := NewGraph()
-	g.AddEdge(v1, v2)
+	e := Edge{v1, v2}
+	g.AddEdge(e)
 	if !g.IsConnected(v1, v2) {
 		t.Error("expected true, got false")
 	}
@@ -32,8 +34,20 @@ func TestIsConnected(t *testing.T) {
 	}
 }
 
-func TestGetEdgeWhenEdgeExists(t *testing.T) {
-	v1, v2 := Vertex{"v1"}, Vertex{"v2"}
+func TestGetEdge(t *testing.T) {
+	v1, v2, v3 := Vertex{"v1"}, Vertex{"v2"}, Vertex{"v3"}
 	g := NewGraph()
-	g.AddEdge(v1, v2)
+	e := Edge{v1, v2}
+	g.AddEdge(e)
+	i := g.GetEdgeIndex(v1, v2)
+	expected_index := 0
+	if i != expected_index {
+		t.Error("expected %v, got %v", expected_index, i)
+	}
+	i = g.GetEdgeIndex(v1, v3)
+	expected_index = -1
+	if i != expected_index {
+		t.Error("expected %v, got %v", expected_index, i)
+	}
+
 }

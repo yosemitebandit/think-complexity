@@ -26,10 +26,9 @@ func (g *Graph) AddVertex(v Vertex) {
 	g.vertices = append(g.vertices, v)
 }
 
-func (g *Graph) AddEdge(v1, v2 Vertex) {
-	g.connections[v1] = append(g.connections[v1], v2)
-	g.connections[v2] = append(g.connections[v2], v1)
-	e := Edge{v1, v2}
+func (g *Graph) AddEdge(e Edge) {
+	g.connections[e.Start] = append(g.connections[e.Start], e.End)
+	g.connections[e.End] = append(g.connections[e.End], e.Start)
 	g.edges = append(g.edges, e)
 }
 
@@ -41,4 +40,15 @@ func (g *Graph) IsConnected(v1, v2 Vertex) bool {
 		}
 	}
 	return false
+}
+
+// Finds the edge that connects two vertices.
+// Returns -1 if not found.
+func (g *Graph) GetEdgeIndex(v1, v2 Vertex) int {
+	for i, e := range g.edges {
+		if (e.Start == v1 && e.End == v2) || (e.Start == v2 && e.End == v1) {
+			return i
+		}
+	}
+	return -1
 }
