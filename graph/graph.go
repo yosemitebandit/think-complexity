@@ -11,7 +11,7 @@ type Edge struct {
 
 type Graph struct {
 	Vertices    []Vertex
-	edges       []Edge
+	Edges       []Edge
 	connections map[Vertex][]Vertex
 }
 
@@ -29,7 +29,7 @@ func (g *Graph) AddVertex(v Vertex) {
 func (g *Graph) AddEdge(e Edge) {
 	g.connections[e.Start] = append(g.connections[e.Start], e.End)
 	g.connections[e.End] = append(g.connections[e.End], e.Start)
-	g.edges = append(g.edges, e)
+	g.Edges = append(g.Edges, e)
 }
 
 // Determine if a vertex is connected to another vertex by checking connections.
@@ -50,7 +50,7 @@ func (g *Graph) IsConnected(v1, v2 Vertex) bool {
 // Finds the edge that connects two vertices.
 // Returns -1 if not found.
 func (g *Graph) GetEdgeIndex(v1, v2 Vertex) int {
-	for i, e := range g.edges {
+	for i, e := range g.Edges {
 		if (e.Start == v1 && e.End == v2) || (e.Start == v2 && e.End == v1) {
 			return i
 		}
@@ -60,7 +60,7 @@ func (g *Graph) GetEdgeIndex(v1, v2 Vertex) int {
 
 func (g *Graph) RemoveEdge(e Edge) {
 	if i := g.GetEdgeIndex(e.Start, e.End); i != -1 {
-		g.edges = append(g.edges[:i], g.edges[i+1:]...)
+		g.Edges = append(g.Edges[:i], g.Edges[i+1:]...)
 	}
 	for i, v := range g.connections[e.Start] {
 		if e.End == v {
