@@ -41,19 +41,31 @@ func (g *Graph) AddEdge(e Edge) {
 	g.Edges = append(g.Edges, e)
 }
 
-// Determine if a vertex is connected to another vertex by checking connections.
-func (g *Graph) IsConnected(v1, v2 Vertex) bool {
-	for _, v := range g.connections[v1] {
-		if v2 == v {
-			return true
-		}
-	}
-	for _, v := range g.connections[v2] {
-		if v1 == v {
+func vertexInSlice(v Vertex, slice []Vertex) bool {
+	for _, vertex := range slice {
+		if vertex == v {
 			return true
 		}
 	}
 	return false
+}
+
+// Determine if a vertex is connected to another vertex by checking connections.
+func (g *Graph) VertexIsConnected(v1, v2 Vertex) bool {
+	return vertexInSlice(v1, g.connections[v2]) || vertexInSlice(v2, g.connections[v1])
+	/*
+		for _, v := range g.connections[v1] {
+			if v2 == v {
+				return true
+			}
+		}
+		for _, v := range g.connections[v2] {
+			if v1 == v {
+				return true
+			}
+		}
+		return false
+	*/
 }
 
 // Finds the edge that connects two vertices.
@@ -113,4 +125,24 @@ func (g *Graph) AddRandomEdges(p float32) {
 			}
 		}
 	}
+}
+
+func (g *Graph) IsConnected() bool {
+	//visited_vertices := []Vertex{}
+	queue := []Vertex{}
+	queue = append(queue, g.Vertices[0])
+	for len(queue) > 0 {
+		// Pop a vertex off the queue.
+		v1 := queue[len(queue)-1]
+		queue = queue[:len(queue)-1]
+		// Get all connected vertices.
+		//connected := []Vertex{}
+		for _, v2 := range g.Vertices {
+			if g.VertexIsConnected(v1, v2) {
+			}
+		}
+
+	}
+
+	return false
 }

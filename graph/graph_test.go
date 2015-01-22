@@ -16,20 +16,20 @@ func TestAddEdge(t *testing.T) {
 	e := Edge{v1, v2}
 	g := NewGraph()
 	g.AddEdge(e)
-	if !g.IsConnected(v1, v2) {
+	if !g.VertexIsConnected(v1, v2) {
 		t.Error("v1 -/-> v2")
 	}
 }
 
-func TestIsConnected(t *testing.T) {
+func TestVertexIsConnected(t *testing.T) {
 	v1, v2, v3 := Vertex{"v1"}, Vertex{"v2"}, Vertex{"v3"}
 	g := NewGraph()
 	e := Edge{v1, v2}
 	g.AddEdge(e)
-	if !g.IsConnected(v1, v2) {
+	if !g.VertexIsConnected(v1, v2) {
 		t.Error("expected true, got false")
 	}
-	if g.IsConnected(v1, v3) {
+	if g.VertexIsConnected(v1, v3) {
 		t.Error("expected false, got true")
 	}
 }
@@ -57,7 +57,7 @@ func TestRemoveEdge(t *testing.T) {
 	e := Edge{v1, v2}
 	g.AddEdge(e)
 	g.RemoveEdge(e)
-	if g.IsConnected(v1, v2) {
+	if g.VertexIsConnected(v1, v2) {
 		t.Error("expected false, got true")
 	}
 	expected_index := -1
@@ -89,5 +89,30 @@ func TestAddAllEdges(t *testing.T) {
 	g.AddAllEdges()
 	if 10 != len(g.Edges) {
 		t.Errorf("expected %v, got %v", 10, len(g.Edges))
+	}
+}
+
+func TestIsConnected(t *testing.T) {
+	v1, v2, v3, v4, v5 := Vertex{"v1"}, Vertex{"v2"}, Vertex{"v3"}, Vertex{"v4"}, Vertex{"v5"}
+	// Connect all vertices to one another -- a thoroughly connected graph
+	g1 := NewGraph()
+	for _, v := range []Vertex{v1, v2, v3, v4, v5} {
+		g1.AddVertex(v)
+	}
+	g1.AddAllEdges()
+	if !g1.IsConnected() {
+		t.Errorf("graph g1 should be connected.")
+	}
+	// Connect some vertices but not all.
+	g2 := NewGraph()
+	for _, v := range []Vertex{v1, v2, v3, v4, v5} {
+		g1.AddVertex(v)
+	}
+	e1 := Edge{v1, v2}
+	g2.AddEdge(e1)
+	e2 := Edge{v1, v3}
+	g2.AddEdge(e2)
+	if g2.IsConnected() {
+		t.Errorf("graph g2 should not be connected.")
 	}
 }
