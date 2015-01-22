@@ -79,3 +79,15 @@ func TestOutEdges(t *testing.T) {
 		t.Errorf("expected %v, got %v", e, edges[0])
 	}
 }
+
+func TestAddAllEdges(t *testing.T) {
+	v1, v2, v3, v4, v5 := Vertex{"v1"}, Vertex{"v2"}, Vertex{"v3"}, Vertex{"v4"}, Vertex{"v5"}
+	g := NewGraph()
+	for _, v := range []Vertex{v1, v2, v3, v4, v5} {
+		g.AddVertex(v)
+	}
+	g.AddAllEdges()
+	if 10 != len(g.Edges) {
+		t.Errorf("expected %v, got %v", 10, len(g.Edges))
+	}
+}

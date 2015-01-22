@@ -83,3 +83,17 @@ func (g *Graph) OutEdges(v Vertex) []Edge {
 	}
 	return edges
 }
+
+// From an edgeless graph, connect every pair of vertices.
+func (g *Graph) AddAllEdges() {
+	for i, v1 := range g.Vertices {
+		if i == len(g.Vertices) {
+			break
+		}
+		for _, v2 := range g.Vertices[i+1:] {
+			e := Edge{v1, v2}
+			g.AddEdge(e)
+		}
+	}
+
+}
