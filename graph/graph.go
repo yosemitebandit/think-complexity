@@ -1,5 +1,10 @@
 package graph
 
+import (
+	"math/rand"
+	"time"
+)
+
 type Vertex struct {
 	Label string
 }
@@ -13,6 +18,10 @@ type Graph struct {
 	Vertices    []Vertex
 	Edges       []Edge
 	connections map[Vertex][]Vertex
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }
 
 // Graph constructor.
@@ -87,13 +96,21 @@ func (g *Graph) OutEdges(v Vertex) []Edge {
 // From an edgeless graph, connect every pair of vertices.
 func (g *Graph) AddAllEdges() {
 	for i, v1 := range g.Vertices {
-		if i == len(g.Vertices) {
-			break
-		}
 		for _, v2 := range g.Vertices[i+1:] {
 			e := Edge{v1, v2}
 			g.AddEdge(e)
 		}
 	}
+}
 
+// From an edgeless graph, add edges at random.
+func (g *Graph) AddRandomEdges(p float32) {
+	for i, v1 := range g.Vertices {
+		for _, v2 := range g.Vertices[i+1:] {
+			if p >= rand.Float32() {
+				e := Edge{v1, v2}
+				g.AddEdge(e)
+			}
+		}
+	}
 }
