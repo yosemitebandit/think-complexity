@@ -65,3 +65,17 @@ func TestRemoveEdge(t *testing.T) {
 		t.Errorf("expected %v, got %v", expected_index, i)
 	}
 }
+
+func TestOutEdges(t *testing.T) {
+	v1, v2 := Vertex{"v1"}, Vertex{"v2"}
+	g := NewGraph()
+	e := Edge{v1, v2}
+	g.AddEdge(e)
+	edges := g.OutEdges(v1)
+	if 1 != len(edges) {
+		t.Errorf("expected len of 1, got %v", len(edges))
+	}
+	if e != edges[0] {
+		t.Errorf("expected %v, got %v", e, edges[0])
+	}
+}

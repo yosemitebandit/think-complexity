@@ -73,3 +73,13 @@ func (g *Graph) RemoveEdge(e Edge) {
 		}
 	}
 }
+
+func (g *Graph) OutEdges(v Vertex) []Edge {
+	edges := []Edge{}
+	for _, e := range g.Edges {
+		if e.Start == v || e.End == v {
+			edges = append(edges, e)
+		}
+	}
+	return edges
+}
