@@ -6,8 +6,8 @@ func TestAddVertex(t *testing.T) {
 	v1 := Vertex{"v1"}
 	g := NewGraph()
 	g.AddVertex(v1)
-	if g.vertices[0] != v1 {
-		t.Errorf("expected v1, got ", g.vertices[0])
+	if g.Vertices[0] != v1 {
+		t.Errorf("expected v1, got ", g.Vertices[0])
 	}
 }
 

@@ -10,7 +10,7 @@ type Edge struct {
 }
 
 type Graph struct {
-	vertices    []Vertex
+	Vertices    []Vertex
 	edges       []Edge
 	connections map[Vertex][]Vertex
 }
@@ -23,7 +23,7 @@ func NewGraph() *Graph {
 }
 
 func (g *Graph) AddVertex(v Vertex) {
-	g.vertices = append(g.vertices, v)
+	g.Vertices = append(g.Vertices, v)
 }
 
 func (g *Graph) AddEdge(e Edge) {
