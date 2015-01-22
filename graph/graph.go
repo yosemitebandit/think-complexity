@@ -39,6 +39,11 @@ func (g *Graph) IsConnected(v1, v2 Vertex) bool {
 			return true
 		}
 	}
+	for _, v := range g.connections[v2] {
+		if v1 == v {
+			return true
+		}
+	}
 	return false
 }
 
@@ -51,4 +56,20 @@ func (g *Graph) GetEdgeIndex(v1, v2 Vertex) int {
 		}
 	}
 	return -1
+}
+
+func (g *Graph) RemoveEdge(e Edge) {
+	if i := g.GetEdgeIndex(e.Start, e.End); i != -1 {
+		g.edges = append(g.edges[:i], g.edges[i+1:]...)
+	}
+	for i, v := range g.connections[e.Start] {
+		if e.End == v {
+			g.connections[e.Start] = append(g.connections[e.Start][:i], g.connections[e.Start][i+1:]...)
+		}
+	}
+	for i, v := range g.connections[e.End] {
+		if e.Start == v {
+			g.connections[e.End] = append(g.connections[e.End][:i], g.connections[e.End][i+1:]...)
+		}
+	}
 }
